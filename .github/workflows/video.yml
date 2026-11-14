@@ -1,10 +1,10 @@
 name: Video
 
-# kaynaklar.txt değişince videolar üretilir; adaylar.txt değişince yalnızca önizleme resimleri çıkar
+# kaynaklar.txt ya da derleme.txt değişince videolar üretilir; adaylar.txt değişince yalnızca önizleme resimleri çıkar
 on:
   push:
     branches: [main]
-    paths: [kaynaklar.txt, adaylar.txt]
+    paths: [kaynaklar.txt, adaylar.txt, derleme.txt]
 
 permissions:
   contents: write
@@ -34,6 +34,7 @@ jobs:
         run: |
           [ -f kaynaklar.txt ] || exit 0
           python3 video.py
+          [ -f derleme.txt ] && python3 derle.py
           python3 liste.py
           git config user.name "liste"
           git config user.email "liste@users.noreply.github.com"

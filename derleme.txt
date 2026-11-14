@@ -1,0 +1,11 @@
+# Kanal adı | parça adı | video adresi | yedek adres
+# Videolar mixkit.co'dan (ücretsiz lisanslı olanlar).
+İstanbul | Limana yanaşan tur vapurları | https://assets.mixkit.co/videos/4004/4004-2160.mp4 | https://mixkit.co/free-stock-video/download/4004/?context=sidebar&type=2160p
+İstanbul | Kanalı geçen vapur | https://assets.mixkit.co/videos/4085/4085-1080.mp4 | https://mixkit.co/free-stock-video/download/4085/?context=sidebar&type=1080p
+İstanbul | Simetrik cami | https://assets.mixkit.co/videos/4313/4313-1080.mp4 | https://mixkit.co/free-stock-video/download/4313/?context=sidebar&type=1080p
+İstanbul | Turistlerin gezdiği cami | https://assets.mixkit.co/videos/4005/4005-2160.mp4 | https://mixkit.co/free-stock-video/download/4005/?context=sidebar&type=2160p
+İstanbul | Şehirde fıskiye | https://assets.mixkit.co/videos/4082/4082-1080.mp4 | https://mixkit.co/free-stock-video/download/4082/?context=sidebar&type=1080p
+İstanbul | Eski cami | https://assets.mixkit.co/videos/4311/4311-1080.mp4 | https://mixkit.co/free-stock-video/download/4311/?context=sidebar&type=1080p
+İstanbul | Seyyar satıcılar | https://assets.mixkit.co/videos/4463/4463-1080.mp4 | https://mixkit.co/free-stock-video/download/4463/?context=sidebar&type=1080p
+İstanbul | Balık pazarı | https://assets.mixkit.co/videos/4159/4159-1080.mp4 | https://mixkit.co/free-stock-video/download/4159/?context=sidebar&type=1080p
+İstanbul | Gece cami | https://assets.mixkit.co/videos/4312/4312-1080.mp4 | https://mixkit.co/free-stock-video/download/4312/?context=sidebar&type=1080p
