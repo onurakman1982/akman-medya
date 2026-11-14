@@ -1,0 +1,9 @@
+Limana yanaşan tur vapurları: 3840,2160, 10 sn
+Kanalı geçen vapur: 1920,1080, 24 sn
+Simetrik cami: 1920,1080, 15 sn
+Turistlerin gezdiği cami: 3840,2160, 11 sn
+Şehirde fıskiye: 1920,1080, 3 sn
+Eski cami: 1920,1080, 10 sn
+Seyyar satıcılar: 1920,1080, 12 sn
+Balık pazarı: 1920,1080, 14 sn
+Gece cami: 1920,1080, 8 sn
