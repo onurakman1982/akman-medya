@@ -1,4 +1,45 @@
 {
  "surum": 1,
- "kanallar": []
+ "kanallar": [
+  {
+   "ad": "Akvaryum",
+   "tur": "video",
+   "video": "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/Akvaryum/Akvaryum.mp4"
+  },
+  {
+   "ad": "Dalgalar",
+   "tur": "video",
+   "video": "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/Dalgalar/Dalgalar.mp4"
+  },
+  {
+   "ad": "Dere",
+   "tur": "video",
+   "video": "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/Dere/Dere.mp4"
+  },
+  {
+   "ad": "Kar",
+   "tur": "video",
+   "video": "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/Kar/Kar.mp4"
+  },
+  {
+   "ad": "Çayır",
+   "tur": "video",
+   "video": "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/%C3%87ay%C4%B1r/%C3%87ay%C4%B1r.mp4"
+  },
+  {
+   "ad": "Şelale",
+   "tur": "video",
+   "video": "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/%C5%9Eelale/%C5%9Eelale.mp4"
+  },
+  {
+   "ad": "Şömine",
+   "tur": "video",
+   "video": "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/%C5%9E%C3%B6mine/%C5%9E%C3%B6mine.mp4"
+  },
+  {
+   "ad": "Şömine 2",
+   "tur": "video",
+   "video": "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/%C5%9E%C3%B6mine%202/%C5%9E%C3%B6mine%202.mp4"
+  }
+ ]
 }
