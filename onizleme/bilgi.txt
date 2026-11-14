@@ -1,0 +1,14 @@
+somine-a | 3840,2160,25/1 | ses: aac
+somine-b | 2560,1440,30000/1001 | ses: aac
+kar-a | 3840,2160,30000/1001 | ses: aac
+kar-b | 3840,2160,24000/1001 | ses: aac
+kar-c | 3840,2160,30/1 | ses: yok
+kar-d | 2560,1440,30/1 | ses: yok
+yagmur-a | 3840,2160,30000/1001 | ses: aac
+yagmur-b | 3840,2160,30000/1001 | ses: aac
+dalga-a | 3840,2160,30000/1001 | ses: aac
+dere-a | 3840,2160,30000/1001 | ses: aac
+dere-b | 3840,2160,30000/1001 | ses: yok
+selale-a | 3840,2160,30000/1001 | ses: aac
+cayir-a | 3840,2160,30000/1001 | ses: aac
+akvaryum-a | 3840,2160,30/1 | ses: aac
