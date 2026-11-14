@@ -1,0 +1,41 @@
+name: Video
+
+# kaynaklar.txt değişince videolar üretilir; adaylar.txt değişince yalnızca önizleme resimleri çıkar
+on:
+  push:
+    branches: [main]
+    paths: [kaynaklar.txt, adaylar.txt]
+
+permissions:
+  contents: write
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: ffmpeg kur
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Önizleme
+        run: |
+          git diff --name-only HEAD~1 HEAD | grep -qx adaylar.txt || exit 0
+          ONIZLEME=1 python3 video.py
+          git config user.name "liste"
+          git config user.email "liste@users.noreply.github.com"
+          git checkout -q -B onizleme
+          git add -f onizleme
+          git commit -q -m "Önizleme"
+          git push -f origin onizleme
+          git checkout -q main
+      - name: Videoları üret
+        run: |
+          [ -f kaynaklar.txt ] || exit 0
+          python3 video.py
+          python3 liste.py
+          git config user.name "liste"
+          git config user.email "liste@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || (git commit -q -m "Videolar yenilendi" && git push)

@@ -1,0 +1,15 @@
+# Önizleme adayları:  ad | adres | başlangıç | süre
+somine-a | https://videos.pexels.com/video-files/11751758/11751758-uhd_3840_2160_25fps.mp4 | 40 | 15
+somine-b | https://videos.pexels.com/video-files/15264411/15264411-uhd_3840_2160_30fps.mp4 | 2 | 15
+kar-a | https://videos.pexels.com/video-files/11554137/11554137-uhd_3840_2160_30fps.mp4 | 2 | 15
+kar-b | https://videos.pexels.com/video-files/19886712/19886712-uhd_3840_2160_24fps.mp4 | 10 | 15
+kar-c | https://videos.pexels.com/video-files/19642634/19642634-uhd_3840_2160_30fps.mp4 | 0 | 13
+kar-d | https://videos.pexels.com/video-files/19493781/19493781-uhd_3840_2160_30fps.mp4 | 0 | 11
+yagmur-a | https://videos.pexels.com/video-files/5517022/5517022-uhd_3840_2160_30fps.mp4 | 10 | 15
+yagmur-b | https://videos.pexels.com/video-files/5517030/5517030-uhd_3840_2160_30fps.mp4 | 5 | 15
+dalga-a | https://videos.pexels.com/video-files/3009253/3009253-uhd_3840_2160_30fps.mp4 | 3 | 15
+dere-a | https://videos.pexels.com/video-files/7388473/7388473-uhd_3840_2160_30fps.mp4 | 10 | 15
+dere-b | https://videos.pexels.com/video-files/10397245/10397245-uhd_3840_2160_30fps.mp4 | 3 | 15
+selale-a | https://videos.pexels.com/video-files/5527622/5527622-uhd_3840_2160_30fps.mp4 | 5 | 15
+cayir-a | https://videos.pexels.com/video-files/12767090/12767090-uhd_3840_2160_30fps.mp4 | 1 | 15
+akvaryum-a | https://videos.pexels.com/video-files/11342036/11342036-uhd_3840_2160_30fps.mp4 | 5 | 15
