@@ -1,0 +1,25 @@
+name: Liste
+
+# Klasörlere dosya eklenip çıkarıldıkça gorsel.json kendiliğinden yenilenir
+on:
+  push:
+    branches: [main]
+    paths-ignore: [gorsel.json]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  liste:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Listeyi üret
+        run: python3 liste.py
+      - name: Değiştiyse kaydet
+        run: |
+          git config user.name "liste"
+          git config user.email "liste@users.noreply.github.com"
+          git add gorsel.json
+          git diff --cached --quiet || (git commit -m "Liste yenilendi" && git push)
