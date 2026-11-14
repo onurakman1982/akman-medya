@@ -12,6 +12,7 @@ BASE = "https://raw.githubusercontent.com/onurakman1982/akman-medya/main/"
 IMAGES = (".jpg", ".jpeg", ".png", ".webp")
 VIDEOS = (".mp4", ".m4v", ".webm", ".mkv")
 SOUNDS = (".mp3", ".m4a", ".aac", ".ogg")
+SKIP = ("kaynak", "onizleme")  # ham dosyalar ve önizlemeler kanal değildir
 
 
 def url(path):
@@ -21,7 +22,7 @@ def url(path):
 def main():
     channels = []
     for folder in sorted(os.listdir("."), key=str.lower):
-        if folder.startswith(".") or not os.path.isdir(folder):
+        if folder.startswith(".") or folder in SKIP or not os.path.isdir(folder):
             continue
         files = sorted(os.listdir(folder), key=str.lower)
         pick = lambda exts: [os.path.join(folder, f) for f in files if f.lower().endswith(exts)]

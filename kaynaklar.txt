@@ -1,0 +1,10 @@
+# Kanal adı | video | başlangıç sn | süre sn | ses kaynağı | ses başlangıç sn | tekrar
+# Videolar pexels.com'dan (ücretsiz kullanım lisansı).
+Şömine | kaynak/somine-yakin.mp4 | 0 | 5 | https://videos.pexels.com/video-files/11751758/11751758-uhd_3840_2160_25fps.mp4 | 60 | 3
+Şömine 2 | https://videos.pexels.com/video-files/11751758/11751758-uhd_3840_2160_25fps.mp4 | 40 | 15
+Kar | https://videos.pexels.com/video-files/19642634/19642634-uhd_3840_2160_30fps.mp4 | 0 | 13
+Dalgalar | https://videos.pexels.com/video-files/3009253/3009253-uhd_3840_2160_30fps.mp4 | 3 | 15
+Dere | https://videos.pexels.com/video-files/7388473/7388473-uhd_3840_2160_30fps.mp4 | 10 | 15
+Şelale | https://videos.pexels.com/video-files/5527622/5527622-uhd_3840_2160_30fps.mp4 | 5 | 15
+Çayır | https://videos.pexels.com/video-files/12767090/12767090-uhd_3840_2160_30fps.mp4 | 1 | 15
+Akvaryum | https://videos.pexels.com/video-files/11342036/11342036-uhd_3840_2160_30fps.mp4 | 5 | 15

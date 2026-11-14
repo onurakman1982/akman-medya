@@ -1,6 +1,8 @@
 """kaynaklar.txt'teki videoları indirir, kısa ve kesintisiz dönen 4K parçalara çevirir.
 
-Satır biçimi:  Kanal adı | video adresi | başlangıç saniyesi | süre saniyesi
+Satır biçimi:  Kanal adı | video | başlangıç sn | süre sn | ses kaynağı | ses başlangıç sn | tekrar
+Son üç alan isteğe bağlı: videonun sesi yoksa başka bir kaynaktan ses alınır,
+çok kısa videolar "tekrar" kadar arka arkaya eklenir. Video, depodaki bir dosya da olabilir.
 Çıktı: <Kanal adı>/<Kanal adı>.mp4  (dosya zaten varsa yeniden üretilmez)
 
 ONIZLEME=1 ile çalışırsa video üretmez; adaylar.txt'teki her satır için
@@ -11,7 +13,6 @@ import subprocess
 import sys
 
 UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
-FADE = 1.0  # sondan başa geçişin süresi; dönüş yeri bununla görünmez olur
 
 
 def rows(path):
@@ -21,7 +22,7 @@ def rows(path):
             continue
         p = [x.strip() for x in line.split("|")]
         if len(p) >= 4:
-            yield p[0], p[1], float(p[2]), float(p[3])
+            yield p
 
 
 def run(cmd):
@@ -30,7 +31,7 @@ def run(cmd):
 
 
 def probe(url, entry, stream):
-    r = subprocess.run(["ffprobe", "-v", "error", "-user_agent", UA, "-select_streams", stream,
+    r = subprocess.run(tool("ffprobe", url) + ["-select_streams", stream,
                         "-show_entries", "stream=" + entry, "-of", "csv=p=0", url],
                        stdout=subprocess.PIPE, text=True)
     return r.stdout.strip().split("\n")[0]
@@ -47,12 +48,17 @@ def preview(name, url, start, length):
     return info
 
 
-def make(name, url, start, length):
+def tool(name, url):
+    # tarayıcı kimliği yalnızca internetten okurken gerekir
+    return [name, "-v", "error"] + (["-user_agent", UA] if url.startswith("http") else [])
+
+
+def make(name, url, start, length, sound_url="", sound_start=0.0, repeat=1):
     out = os.path.join(name, name + ".mp4")
     if os.path.exists(out):
         return True
     os.makedirs(name, exist_ok=True)
-    total = length + FADE
+    fade = 1.0 if length >= 10 else 0.6
     rate = probe(url, "r_frame_rate", "v:0")
     try:
         a, b = rate.split("/")
@@ -60,22 +66,42 @@ def make(name, url, start, length):
     except Exception:
         fps = 30.0
     fps = 30 if fps > 31 else round(fps)
-    sound = bool(probe(url, "codec_name", "a:0"))
-    # ilk saniye sona bindirilir: son kare ile ilk kare aynı olur, video dönerken sıçramaz
-    graph = ("[0:v]fps=%d,scale=3840:2160:flags=lanczos,format=yuv420p,split[a][b];"
+    # 4K'dan küçük kaynak büyütülmez; büyütmek ayrıntı katmaz, dosyayı şişirir
+    big = (probe(url, "width", "v:0") or "0").isdigit() and int(probe(url, "width", "v:0")) >= 3840
+    size = "scale=3840:2160:flags=lanczos," if big else ""
+    # ilk bölüm sona bindirilir: son kare ile ilk kare aynı olur, video dönerken sıçramaz
+    graph = ("[0:v]fps=%d,%sformat=yuv420p,split[a][b];"
              "[a]trim=start=%s,setpts=PTS-STARTPTS[main];[b]trim=end=%s,setpts=PTS-STARTPTS[head];"
-             "[main][head]xfade=transition=fade:duration=%s:offset=%s[v]") % (fps, FADE, FADE, FADE, total - 2 * FADE)
-    maps = ["-map", "[v]"]
-    if sound:
-        graph += (";[0:a]aresample=48000,asplit[c][d];[c]atrim=start=%s,asetpts=PTS-STARTPTS[am];"
-                  "[d]atrim=end=%s,asetpts=PTS-STARTPTS[ah];[am][ah]acrossfade=d=%s[s]") % (FADE, FADE, FADE)
-        maps += ["-map", "[s]", "-c:a", "aac", "-b:a", "128k", "-ac", "2"]
-    r = run(["ffmpeg", "-y", "-v", "error", "-user_agent", UA, "-ss", str(start), "-t", str(total), "-i", url,
-             "-filter_complex", graph] + maps +
-            ["-c:v", "libx264", "-preset", "fast", "-crf", "21", "-maxrate", "16M", "-bufsize", "32M",
-             "-profile:v", "high", "-level", "5.1", "-g", str(fps * 2), "-movflags", "+faststart", out])
-    ok = r.returncode == 0 and os.path.exists(out) and os.path.getsize(out) > 200000
-    print(name, "tamam" if ok else "OLMADI", r.stdout[-500:], flush=True)
+             "[main][head]xfade=transition=fade:duration=%s:offset=%s,format=yuv420p[v]") % (fps, size, fade, fade, fade, length - fade)
+    r = run(tool("ffmpeg", url) + ["-y", "-ss", str(start), "-t", str(length + fade), "-i", url,
+             "-filter_complex", graph, "-map", "[v]", "-an",
+             "-c:v", "libx264", "-preset", "fast", "-crf", "21", "-maxrate", "16M", "-bufsize", "32M",
+             "-profile:v", "high", "-level", "5.1", "-g", str(fps * 2), "-movflags", "+faststart", "v.mp4"])
+    log = r.stdout[-400:]
+    src = sound_url or url
+    whole = length * repeat
+    has = os.path.exists("v.mp4") and bool(probe(src, "codec_name", "a:0"))
+    if has:
+        if not sound_url:
+            sound_start = start
+        r = run(tool("ffmpeg", src) + ["-y", "-ss", str(sound_start), "-t", str(whole + 1.0), "-i", src, "-vn",
+                 "-filter_complex", "[0:a]aresample=48000,asetpts=PTS-STARTPTS,asplit[c][d];"
+                 "[c]atrim=start=1,asetpts=PTS-STARTPTS,afade=t=out:st=%s:d=1[am];"
+                 "[d]atrim=end=1,asetpts=PTS-STARTPTS,afade=t=in:d=1,adelay=%d:all=1[ah];"
+                 "[am][ah]amix=inputs=2:normalize=0:duration=first[s]" % (whole - 1, int((whole - 1) * 1000)),
+                 "-map", "[s]", "-c:a", "aac", "-b:a", "128k", "-ac", "2", "a.m4a"])
+        log += r.stdout[-400:]
+        has = os.path.exists("a.m4a")
+    if os.path.exists("v.mp4"):
+        cmd = ["ffmpeg", "-y", "-v", "error", "-stream_loop", str(repeat - 1), "-i", "v.mp4"]
+        cmd += (["-i", "a.m4a", "-map", "0:v", "-map", "1:a", "-shortest"] if has else ["-map", "0:v"])
+        r = run(cmd + ["-c", "copy", "-movflags", "+faststart", out])
+        log += r.stdout[-400:]
+    for t in ("v.mp4", "a.m4a"):
+        if os.path.exists(t):
+            os.remove(t)
+    ok = os.path.exists(out) and os.path.getsize(out) > 200000
+    print(name, "tamam %d MB" % (os.path.getsize(out) // 1000000) if ok else "OLMADI", log, flush=True)
     if not ok and os.path.exists(out):
         os.remove(out)
     return ok
@@ -83,10 +109,14 @@ def make(name, url, start, length):
 
 def main():
     if os.environ.get("ONIZLEME"):
-        notes = [preview(*r) for r in rows("adaylar.txt")]
+        notes = [preview(r[0], r[1], float(r[2]), float(r[3])) for r in rows("adaylar.txt")]
         open("onizleme/bilgi.txt", "w", encoding="utf-8").write("\n".join(notes) + "\n")
         return
-    bad = [r[0] for r in rows("kaynaklar.txt") if not make(*r)]
+    bad = []
+    for r in rows("kaynaklar.txt"):
+        r = r + [""] * (7 - len(r))
+        if not make(r[0], r[1], float(r[2]), float(r[3]), r[4], float(r[5] or 0), int(r[6] or 1)):
+            bad.append(r[0])
     if bad:
         print("Üretilemeyenler:", ", ".join(bad))
         sys.exit(1)
